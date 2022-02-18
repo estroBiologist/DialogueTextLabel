@@ -25,7 +25,7 @@ export var show_character_name := false
 export var voice_player : NodePath
 export var expression_base_node : NodePath
 
-onready var audio_stream_player := get_node(voice_player) as AudioStreamPlayer
+onready var audio_stream_player := get_node(voice_player) as AudioStreamPlayer if not voice_player.is_empty() else null
 
 
 class DialogLine:
