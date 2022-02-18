@@ -105,7 +105,9 @@ func _ready():
 	
 	
 func _process(delta):
-
+	if not current_line: 
+		return
+	
 	while realtime_wait > 0.0:
 		realtime_wait = max(realtime_wait - delta, 0.0)
 		return
