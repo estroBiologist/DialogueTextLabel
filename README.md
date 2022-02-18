@@ -3,7 +3,7 @@
 
 Originally built for my own game, **CHORDIOID**, this script is a stripped-down, more modular version of that cluttered mess.
 
-It handles text displaying, 
+It handles the logistical nightmare of displaying text with embedded commands and formatting properly, so you can focus on the *other* nightmare of creating a half-decent backend that feeds the lines into the label in the first place. 
 
 ## Features
 - Escape sequences. This one's pretty self-explanatory.
