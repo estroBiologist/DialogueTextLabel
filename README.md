@@ -25,7 +25,32 @@ Use `set_new_text(new_line: DialogLine)` to start a new line. `DialogLine` is a 
 
 If you want a text advance sound, hook up an `AudioStreamPlayer` via the exported `voice_player` property.
 
-That's about it.
+### Syntax
+
+[BBCode is BBCode](https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html). Works how you'd expect, except that tags can be escaped using backslashes now.
+
+And then there's commands.
+
+A command is, to use the technical term, a Thing That Happens When A Certain Character Is Reached. They're used for pauses, text speed changes, and whatever else your heart desires. Commands are entered between `{curly braces}`. The standard syntax for a command is `{name arg}`, where `arg` is an expression. See the definition of `handle_command()` for all the available commands.
+
+The event command has a slightly different syntax; more akin to your average function call. The full syntax is `{event event_name(arg1, arg2, ...)}`, or `{event await event_name(arg1, arg2, ...)}`, depending on the behaviour you want (see `process_event()`). Worth noting is that `event`, like most commands, has an abbreviation: `e`.
+
+For a practical example, here are the strings used for the showcase below:
+
+
+```
+var lines = [
+	"This is a DialogueTextLabel demonstration!", 
+	"Look, I can use [color=yellow]BBCode[/color], or \\[color=yellow]escape it[/color]!",
+	"Autopunc is on, which automatically puts pauses after punctuation.",
+	"But you can also do it{p 20} manually!",
+	"As for the event system...{p 10} Walter, would you help me demonstrate? {e walterify()}",
+	"Thank you. Now, then: Watch as I turn Walter White... into Walter Wide{e wideify(2.0)}.",
+	"As you can see, anything's possible with the event system! Thank you, Walter.{e dewalterify()}",
+	]
+```
+
+Makes sense? Makes sense.
 
 ## Showcase
 
@@ -47,19 +72,6 @@ That's about it.
 ![As you can see, anything's possible with the event system! Thank you, Walter.](https://media.discordapp.net/attachments/857262465876099083/944323210369978408/gif07.gif)\
 *Figures 5, 6, 7: jesy*
 
-(Text used:)
-
-```
-var lines = [
-	"This is a DialogueTextLabel demonstration!", 
-	"Look, I can use [color=yellow]BBCode[/color], or \\[color=yellow]escape it[/color]!",
-	"Autopunc is on, which automatically puts pauses after punctuation.",
-	"But you can also do it{p 20} manually!",
-	"As for the event system...{p 10} Walter, would you help me demonstrate? {e walterify()}",
-	"Thank you. Now, then: Watch as I turn Walter White... into Walter Wide{e wideify(2.0)}.",
-	"As you can see, anything's possible with the event system! Thank you, Walter.{e dewalterify()}",
-	]
-```
 
 ## License
 
