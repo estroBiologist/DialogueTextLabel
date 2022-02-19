@@ -43,6 +43,12 @@ var current_text := ""
 var current_commands := {} # Maps character indices to arrays of commands
 
 
+static func quick_line(text: String, name := "") -> DialogLine:
+	var line := DialogLine.new()
+	line.text = text
+	line.name = name
+	return line
+
 	
 func set_new_text(new_line: DialogLine):
 	skipping_line = false
@@ -334,7 +340,8 @@ func handle_command(command: Dictionary):
 			process_event(command)
 		_:
 			print("WARN: Unrecognized dialog command: ", command.name)
-	
+
+
 
 func split_args(param_list: String):
 	var stack_depth := 0
