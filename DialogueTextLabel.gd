@@ -335,9 +335,12 @@ func handle_command(command: Dictionary):
 		
 		"waitsec", "w":
 			realtime_wait = command.args[0].to_float()
-			
-		"event", "e":
-			process_event(command)
+		
+		# Sayonara, kansas
+		
+		#"event", "e":
+		#	process_event(command)
+		
 		_:
 			print("WARN: Unrecognized dialog command: ", command.name)
 
@@ -368,96 +371,8 @@ func split_args(param_list: String):
 	
 
 
-# Events are this system's version of signals.
-# Any Node registered to the dia_event group will receive a function call to
-# `dia_eventn(name, args)` when an {event} command is reached during dialogue.
-# Useful for integration with i.e. a cutscene system
-#
-# Another useful feature is that these `dia_event` calls can return a float,
-# which represents an amount of time in seconds that the dialogue system should
-# wait before continuing. This will only happen if the event is prefixed
-# with `await`, though.
-#
-# Also, this part of the parser gets messy. Sorry about that.
-#
-func process_event(command):
-	# Get the raw command text so we can parse it ourselves
-	var event_text = command.raw
-	var result_array := []
-	var argstart = event_text.find("(") # Start of parameter list
-	var qualifstart = event_text.find(" ") + 1 # The character after the first space
-	var event_name : String
-	var qualifiers_text : String
-	var await := false	
-	
-	if argstart != -1:
-		qualifiers_text = event_text.substr(qualifstart, argstart - qualifstart)
-	else:
-		qualifiers_text = event_text.substr(qualifstart)
-	
-
-	# Qualifiers (only `await` in this stripped-down version)
-	var qualifiers = qualifiers_text.split(" ")	
-	
-	if qualifiers.size() > 1:
-		for i in qualifiers.size() - 1:
-			match qualifiers[i]:
-				"await":
-					await = true
-				
-	# Get event name, which is the last in the qualifiers array
-	event_name = qualifiers[qualifiers.size() - 1]
-	
-	
-	# Parse the parameter list
-	if argstart != -1:
-		var args : String = event_text.substr(argstart + 1, event_text.find_last(")") - argstart - 1)
-		
-		if not args.empty():
-			# Split the parameter list into individual strings, and evaluate them
-			var args_array = split_args(args)
-			
-			for arg in args_array:
-				result_array.append(parse_expr(arg))
-	
-	
-	# Call dia_event on listeners
-	var event_listeners = get_tree().get_nodes_in_group("dia_event")
-	var wait_time := 0.0
-	
-	for listener in event_listeners:
-		
-		if !listener.has_method("dia_event"):
-			var script_name := listener.get_script().resource_path as String
-			script_name = script_name.substr(script_name.find_last("/") + 1)
-			
-			print("WARN: Node ", listener.name, " (", script_name, ") is in group dia_event, but has no method dia_event(); skipping")
-			continue
-		
-		
-		# Call dia_event on event listener
-		var time_result = listener.dia_event(event_name, result_array)
-		
-		
-		match typeof(time_result):
-			TYPE_REAL, TYPE_INT, TYPE_NIL:
-				pass # Numeric or no result
-			_:
-				printerr("ERROR: Invalid return type from dia_event() call (", listener.name, ".dia_event())")
-				return -1
-				
-				
-		if time_result:
-			if wait_time != 0.0:
-				print("WARN: More than one object returned wait time from dia_event() call; using longest time")
-				
-			wait_time = max(wait_time, time_result)
-		
-		
-	# If we have a wait time and the `await` qualifier, we apply it here
-	if await:
-		realtime_wait = wait_time
-
+# This is where event handling would happen in the `main` branch, but we're not
+# about that fast-and-loose shit here. This is STABILITY TOWN, motherfucker.
 
 
 
