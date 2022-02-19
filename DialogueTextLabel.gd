@@ -47,6 +47,7 @@ static func quick_line(text: String, name := "") -> DialogLine:
 	var line := DialogLine.new()
 	line.text = text
 	line.name = name
+	line.autopunc = true
 	return line
 
 	
