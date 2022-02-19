@@ -5,6 +5,8 @@ Originally built for my own game, **CHORDIOID**, this script is a stripped-down,
 
 It handles the logistical nightmare of displaying text with embedded commands and formatting properly, so you can focus on the *other* nightmare of creating a half-decent backend that feeds the lines into the label in the first place. 
 
+*This is the `reversible` branch. It's adapted from `main` for a visual novel project I'm working on, and is centered around making two-way dialogue navigation possible. To that end, some functionality (looking at you, events) will likely be sacrificed for the sake of stability and control. If reversibility is what you're after, knock yourself out.*
+
 ## Features
 - Escape sequences. This one's pretty self-explanatory.
 - **"Typewriter" effect**: Lines are automatically presented one character at a time, with customizable speeds
