@@ -55,6 +55,7 @@ func set_new_text(new_line: DialogLine):
 	skipping_line = false
 	is_line_finished = false
 	visible_characters = 0
+	text_speed_multiplier = 1.0
 	
 	current_commands = {}
 	processed_char_commands = 0
@@ -322,13 +323,16 @@ func parse_line_commands(txtline: String, autopunc: bool):
 	return commands
 	
 	
-
+	
+# LIMITATION FOR COMMANDS IN REVERSIBLE MODE:
+# Commands may not change the state of the environment *across lines*.
+# I.e. "speed" is undone on the next line.
 func handle_command(command: Dictionary):
 	match command.name:
 		"pause", "p":
 			pause_buffer = command.args[0].to_int()
 		
-		"speed", "sp":
+		"speed", "s":
 			text_speed_multiplier = command.args[0].to_float()
 		
 		"advance", "a":
@@ -337,13 +341,9 @@ func handle_command(command: Dictionary):
 		"waitsec", "w":
 			realtime_wait = command.args[0].to_float()
 		
-		# Sayonara, kansas
-		
-		#"event", "e":
-		#	process_event(command)
-		
 		_:
 			print("WARN: Unrecognized dialog command: ", command.name)
+
 
 
 
